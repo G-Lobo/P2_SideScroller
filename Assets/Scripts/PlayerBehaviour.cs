@@ -4,15 +4,26 @@ using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] Rigidbody2D playerRb;
+    [SerializeField] Camera playerCamera;
+    [SerializeField] private Collider2D playerCollider;
 
-    // Update is called once per frame
+    private float gameScrollSpeed = 0.1f;
+
     void Update()
     {
-        
+        if (Input.GetButtonDown("Jump"))
+        {
+            playerRb.AddForce(Vector2.up * 7f, ForceMode2D.Impulse);
+        }
+    }
+
+    void FixedUpdate()
+    {
+        //movimentaçao da camera para a direita
+        playerCamera.transform.position = new Vector3(playerCamera.transform.position.x + gameScrollSpeed, playerCamera.transform.position.y, playerCamera.transform.position.z);
+
+        //movimentaçao do player em relaçao a camera
+        playerRb.transform.position = new Vector3(playerRb.transform.position.x + gameScrollSpeed, playerRb.transform.position.y, playerRb.transform.position.z);
     }
 }
