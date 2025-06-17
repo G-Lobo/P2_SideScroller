@@ -1,29 +1,50 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
 {
-    [SerializeField] Rigidbody2D playerRb;
-    [SerializeField] Camera playerCamera;
+    [Header("Componentes")]
+    [SerializeField] private Rigidbody2D playerRb;
     [SerializeField] private Collider2D playerCollider;
 
-    private float gameScrollSpeed = 0.1f;
+    [Header("Pulo")]
+    [SerializeField] private float jumpForce = 20f;
+    [SerializeField] private Transform groundCheck;   // O Empty que criamos
+    [SerializeField] private float groundCheckRadius = 0.2f;
+    [SerializeField] private LayerMask groundLayer;
+    
+    [Header("Gizmo")]
+    [SerializeField] private bool showGizmo = true;
+
+    private bool isGrounded;
 
     void Update()
     {
-        if (Input.GetButtonDown("Jump"))
+        CheckGround();
+
+        if (Input.GetButtonDown("Jump") && isGrounded)
         {
-            playerRb.AddForce(Vector2.up * 7f, ForceMode2D.Impulse);
+            playerRb.velocity = new Vector2(playerRb.velocity.x, 0f);  // Zera o Y antes de pular (opcional mas recomendado)
+            playerRb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+        }
+
+        // Kill player se cair muito
+        if (playerRb.position.y < -5)
+        {
+            Destroy(gameObject);
         }
     }
 
-    void FixedUpdate()
+    void CheckGround()
     {
-        //movimentaçao da camera para a direita
-        playerCamera.transform.position = new Vector3(playerCamera.transform.position.x + gameScrollSpeed, playerCamera.transform.position.y, playerCamera.transform.position.z);
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+    }
 
-        //movimentaçao do player em relaçao a camera
-        playerRb.transform.position = new Vector3(playerRb.transform.position.x + gameScrollSpeed, playerRb.transform.position.y, playerRb.transform.position.z);
+    private void OnDrawGizmosSelected()
+    {
+        if (groundCheck != null && showGizmo)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+        }
     }
 }
