@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerBehaviour : MonoBehaviour
 {
@@ -16,7 +17,16 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] private bool showGizmo = true;
 
     private bool isGrounded;
+    private ScoreManager scoreManager;
+    private GameObject currentPlatform;
 
+
+
+    private void Start()
+    {
+        scoreManager = FindObjectOfType<ScoreManager>();
+    }
+    
     void Update()
     {
         CheckGround();
@@ -28,15 +38,43 @@ public class PlayerBehaviour : MonoBehaviour
         }
 
         
-        if (playerRb.position.y < -5)
+        if (playerRb.position.y < -6)
         {
             Destroy(gameObject);
+
+            // SceneManager.LoadScene(0);
         }
     }
 
     void CheckGround()
     {
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+
+        if (isGrounded)
+        {
+            Collider2D platformCollider = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+
+            if (platformCollider != null)
+            {
+                GameObject platformObject = platformCollider.gameObject;
+
+                if (platformObject != currentPlatform)
+                {
+                    currentPlatform = platformObject;
+
+                    PlatformMover platformScore = platformObject.GetComponent<PlatformMover>();
+                    if (platformScore != null && !platformScore.hasScored)
+                    {
+                        scoreManager.AddPoint();
+                        platformScore.hasScored = true;
+                    }
+                }
+            }
+        }
+        else
+        {
+            currentPlatform = null;
+        }
     }
 
     private void OnDrawGizmosSelected()
@@ -50,11 +88,20 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        // 🔥 Quebra plataforma se ela for quebrável
         BreakablePlatform platform = collision.gameObject.GetComponent<BreakablePlatform>();
-
         if (platform != null && platform.canBreak)
         {
             Destroy(collision.gameObject, 0.5f);
         }
+
+        // // 🔥 Sistema de Score
+        // PlatformMover platformScore = collision.gameObject.GetComponent<PlatformMover>();
+        // if (platformScore != null && !platformScore.hasScored)
+        // {
+        //     scoreManager.AddPoint();
+        //     platformScore.hasScored = true;
+        // }
     }
+    
 }

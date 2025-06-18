@@ -9,6 +9,9 @@ public class PlatformMover : MonoBehaviour
     [SerializeField] private float destroyX = -15f;
     [SerializeField] private float destroyYMin = -7f;
     [SerializeField] private float destroyYMax = 7f;
+    
+    public bool hasScored = false;
+
 
     void Update()
     {
@@ -24,4 +27,6 @@ public class PlatformMover : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    
+    
 }

@@ -27,9 +27,9 @@ public class PlatformGenerator : MonoBehaviour
     [SerializeField] private float clusterGapXMax = 0.8f;
 
     [Header("Probabilidades dos Clusters (%)")]
-    [SerializeField] private float chanceCluster1 = 60f;
+    [SerializeField] private float chanceCluster1 = 40f;
     [SerializeField] private float chanceCluster2 = 30f;
-    [SerializeField] private float chanceCluster3 = 10f;
+    [SerializeField] private float chanceCluster3 = 30f;
 
     [Header("Tempo Entre Spawns")]
     [SerializeField] private float spawnInterval = 1.2f;
