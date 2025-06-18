@@ -137,7 +137,7 @@ GameObject:
   - component: {fileID: 55974436}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -567,6 +567,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   platformPrefabs:
   - {fileID: 3167087820413671343, guid: e8898101f275ba356be2fd4e77f8e6ed, type: 3}
+  - {fileID: 3167087820413671343, guid: 66c0044cf83571e44a85d39e2a464660, type: 3}
+  - {fileID: 3167087820413671343, guid: c28799667ad54ea419ab1f24178fde5e, type: 3}
+  normalPlatformIndex: 0
+  movingPlatformIndex: 1
+  breakablePlatformIndex: 2
   startPlatform: {fileID: 1528668820018805614}
   spawnX: 10
   minY: -5
@@ -575,10 +580,13 @@ MonoBehaviour:
   gapXMax: 5
   gapYMin: -3
   gapYMax: 4
-  gapYMaxPlatformClusters: 5
-  gapYMinPlatformClusters: 4.5
-  gapXMaxPlatformClusters: 0.8
-  gapXMinPlatformClusters: 0
+  gapYMinCluster: 4.5
+  gapYMaxCluster: 5
+  clusterGapXMin: -0.8
+  clusterGapXMax: 0.8
+  chanceCluster1: 60
+  chanceCluster2: 30
+  chanceCluster3: 10
   spawnInterval: 1.2
 --- !u!4 &1684536305
 Transform:
