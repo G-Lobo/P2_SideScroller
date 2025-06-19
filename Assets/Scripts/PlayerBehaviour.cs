@@ -42,7 +42,7 @@ public class PlayerBehaviour : MonoBehaviour
         {
             Destroy(gameObject);
 
-            // SceneManager.LoadScene(0);
+            SceneManager.LoadScene(2);
         }
     }
 

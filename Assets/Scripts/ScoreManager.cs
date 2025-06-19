@@ -14,9 +14,12 @@ public class ScoreManager : MonoBehaviour
     {
         score += 10;
         
+
         UpdateUI();
     }
+
     
+
     private void UpdateUI()
     {
         scoreText.text = "Score: " + score;
